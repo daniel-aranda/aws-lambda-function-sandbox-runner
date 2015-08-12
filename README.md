@@ -32,4 +32,6 @@ exports.handler = function(event, context) {
 };
 ```
 
+##Deployment of your Lambda Function
+Some Node.js plugins do the deployment of your code via aws cli, I don't suggest you that, because you are missing testing coverage and continuous integration. I suggest you to use a continous integration like travis that deploys your code to Amazon S3 and to link your Lambda Function to the S3 bucket of your code.
 
