@@ -1,0 +1,35 @@
+{
+  "name": "aws-lambda-function-sandbox-runner",
+  "version": "0.1.0",
+  "description": "Run AWS Lambda Functions on your local computers, for testing purposes",
+  "main": "lambda-sandbox-run.js",
+  "scripts": {
+    "test": "istanbul cover node_modules/jasmine-node/lib/jasmine-node/cli.js tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daniel-aranda/aws-lambda-function-sandbox-runner.git"
+  },
+  "keywords": [
+    "aws",
+    "lambda-function",
+    "aws-lambda-function",
+    "lambda-function-local",
+    "lambda-function-sandbox",
+    "lambda-function-test"
+  ],
+  "devDependencies": {
+    "istanbul": "^0.3.17",
+    "jasmine-core": "^2.3.4",
+    "jasmine-node": "^1.14.5",
+    "karma": "^0.13.3",
+    "karma-chrome-launcher": "^0.2.0",
+    "karma-jasmine": "^0.3.6"
+  },
+  "author": "Daniel Aranda <hello@danielarandaochoa.com> (http://danielarandaochoa.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/daniel-aranda/aws-lambda-function-sandbox-runner/issues"
+  },
+  "homepage": "https://github.com/daniel-aranda/aws-lambda-function-sandbox-runner#readme"
+}
