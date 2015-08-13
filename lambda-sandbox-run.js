@@ -26,7 +26,12 @@ exports.run = function(lambdaName, handlerName, eventPayLoad){
     }
 
     handlerName = handlerName || 'handler';
-    eventPayLoad = eventPayLoad || {};
+
+    if( eventPayLoad ){
+        eventPayLoad = JSON.parse(eventPayLoad);
+    }else{
+        eventPayLoad = {};
+    }
 
     try{
         lambdaFunction = require(process.cwd() + '/' + lambdaName + '.js');

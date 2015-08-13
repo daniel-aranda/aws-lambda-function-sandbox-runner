@@ -10,6 +10,15 @@ describe('AWS Lambda Function', function (){
         });
     });
 
+    describe('send event pay load', function () {
+        it('should call succeed and parse JSON', function (){
+            spyOn(lambdaRunner.aws, 'succeed').andCallThrough();
+            var event = '{"someProperty":"works"}';
+            lambdaRunner.run('lambda-example', 'parseEvent', event);
+            expect(lambdaRunner.aws.succeed).toHaveBeenCalledWith('works');
+        });
+    });
+
     describe('failed execution', function () {
         it('should call fail', function (){
             spyOn(lambdaRunner.aws, 'fail').andCallThrough();
