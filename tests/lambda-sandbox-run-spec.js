@@ -19,6 +19,16 @@ describe('AWS Lambda Function', function (){
         });
     });
 
+    describe('send event pay load from a file', function () {
+        it('should call succeed and parse JSON', function (){
+            spyOn(lambdaRunner.aws, 'succeed').andCallThrough();
+            var event = 'file://tests/fixtures/event.json';
+            lambdaRunner.run('lambda-example', 'parseEvent', event);
+            expect(lambdaRunner.aws.succeed).toHaveBeenCalledWith('works');
+        });
+    });
+
+
     describe('failed execution', function () {
         it('should call fail', function (){
             spyOn(lambdaRunner.aws, 'fail').andCallThrough();
@@ -38,9 +48,23 @@ describe('AWS Lambda Function', function (){
     describe('invalid lambda function', function () {
         it('should call console.error with invalid module', function (){
             spyOn(console, 'error');
+            spyOn(console, 'trace');
             var lambdaName = 'random';
             lambdaRunner.run(lambdaName);
             expect(console.error).toHaveBeenCalledWith('Invalid module: ' + lambdaName);
+            var exception = {code : 'MODULE_NOT_FOUND'};
+            expect(console.trace).toHaveBeenCalledWith(exception);
+        });
+    });
+
+    describe('broken lambda function', function () {
+        it('should call console.error with invalid module', function (){
+            spyOn(console, 'error');
+            spyOn(console, 'trace');
+            var lambdaName = 'lambda-broken-js';
+            lambdaRunner.run(lambdaName);
+            expect(console.error).toHaveBeenCalledWith('Invalid module: ' + lambdaName);
+            expect(console.trace).toHaveBeenCalled();
         });
     });
 

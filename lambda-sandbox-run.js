@@ -28,7 +28,12 @@ exports.run = function(lambdaName, handlerName, eventPayLoad){
     handlerName = handlerName || 'handler';
 
     if( eventPayLoad ){
-        eventPayLoad = JSON.parse(eventPayLoad);
+        if( eventPayLoad.indexOf('file://') === 0 ){
+            filePath = eventPayLoad.substring(7);
+            eventPayLoad = require(process.cwd() + '/' + filePath);
+        }else{
+            eventPayLoad = JSON.parse(eventPayLoad);
+        }
     }else{
         eventPayLoad = {};
     }
@@ -37,6 +42,8 @@ exports.run = function(lambdaName, handlerName, eventPayLoad){
         lambdaFunction = require(process.cwd() + '/' + lambdaName + '.js');
     }catch(exception){
         console.error('Invalid module: ' + lambdaName);
+        console.log(exception);
+        console.trace(exception);
         return null;
     }
 
