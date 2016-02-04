@@ -3,11 +3,11 @@ var awsEmulator = {
 
     succeed: function(response){
         console.log('AWS Lambda Function was executed without issues.');
-        console.log('Output: ' + response);
+        console.log('Output: ', response);
     },
 
     fail: function(error){
-        console.log('AWS Lambda Function failed, reason:' + error);
+        console.log('AWS Lambda Function failed, reason:', error);
     }
 
 };
