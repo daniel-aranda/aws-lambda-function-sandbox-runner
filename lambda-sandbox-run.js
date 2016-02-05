@@ -42,7 +42,7 @@ exports.run = function(lambdaName, handlerName, eventPayLoad){
         lambdaFunction = require(process.cwd() + '/' + lambdaName + '.js');
     }catch(exception){
         console.error('Invalid module: ' + lambdaName);
-        console.trace(exception);
+        console.log(exception.stack);
         return null;
     }
 
@@ -55,7 +55,8 @@ exports.run = function(lambdaName, handlerName, eventPayLoad){
     try{
         handler(eventPayLoad, awsEmulator);
     }catch(exception){
-        console.trace('Uncaught exception running the lambdaFunction. ', exception);
+        console.log('Uncaught exception running the lambdaFunction. ', exception.message);
+        console.log(exception.stack);
         throw exception;
     }
 
