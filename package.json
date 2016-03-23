@@ -1,6 +1,6 @@
 {
   "name": "aws-lambda-function-sandbox-runner",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Run AWS Lambda Functions on your local computers, for testing purposes",
   "main": "lambda-sandbox-run.js",
   "scripts": {
