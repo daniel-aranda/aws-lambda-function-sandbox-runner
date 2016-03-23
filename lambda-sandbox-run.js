@@ -27,13 +27,8 @@ exports.run = function(lambdaName, handlerName, eventPayLoad){
 
     handlerName = handlerName || 'handler';
 
-    if( eventPayLoad ){
-        if( eventPayLoad.indexOf('file://') === 0 ){
-            filePath = eventPayLoad.substring(7);
-            eventPayLoad = require(process.cwd() + '/' + filePath);
-        }else{
-            eventPayLoad = JSON.parse(eventPayLoad);
-        }
+    if( eventPayLoad ) {
+        eventPayLoad = parseEventPayLoad(eventPayLoad);
     }else{
         eventPayLoad = {};
     }
@@ -41,9 +36,7 @@ exports.run = function(lambdaName, handlerName, eventPayLoad){
     try{
         lambdaFunction = require(process.cwd() + '/' + lambdaName + '.js');
     }catch(exception){
-        console.error('Invalid module: ' + lambdaName);
-        console.log(exception.stack);
-        return null;
+        throw new Error('Invalid module: ' + lambdaName);
     }
 
     handler = lambdaFunction[handlerName];
@@ -55,9 +48,29 @@ exports.run = function(lambdaName, handlerName, eventPayLoad){
     try{
         handler(eventPayLoad, awsEmulator);
     }catch(exception){
-        console.log('Uncaught exception running the lambdaFunction. ', exception.message);
-        console.log(exception.stack);
-        throw exception;
+        console.log(exception);
+        throw new Error('Uncaught exception running the lambdaFunction. ' + lambdaName + '.' + handlerName);
     }
 
 };
+
+function parseEventPayLoad(eventPayLoad){
+    console.log(eventPayLoad);
+    try{
+        eventPayLoad = JSON.parse(eventPayLoad);
+    }catch(e){
+
+        var filePath = eventPayLoad;
+        if( filePath.indexOf('file://') === 0 ){
+            filePath = filePath.substring(7);
+        }
+
+        if( filePath.indexOf('/') !== 0 ){
+            filePath = process.cwd() + '/' + filePath;
+        }
+        eventPayLoad = require(filePath);
+
+    }
+
+    return eventPayLoad;
+}

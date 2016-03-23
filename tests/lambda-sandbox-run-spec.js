@@ -46,25 +46,17 @@ describe('AWS Lambda Function', function (){
     });
 
     describe('invalid lambda function', function () {
-        it('should call console.error with invalid module', function (){
-            spyOn(console, 'error');
-            spyOn(console, 'trace');
+        it('should throw invalid module exception', function (){
             var lambdaName = 'random';
-            lambdaRunner.run(lambdaName);
-            expect(console.error).toHaveBeenCalledWith('Invalid module: ' + lambdaName);
-            var exception = {code : 'MODULE_NOT_FOUND'};
-            expect(console.trace).toHaveBeenCalledWith(exception);
+            expect(function(){ lambdaRunner.run(lambdaName); }).toThrow('Invalid module: ' + lambdaName);
         });
     });
 
     describe('broken lambda function', function () {
         it('should call console.error with invalid module', function (){
-            spyOn(console, 'error');
-            spyOn(console, 'trace');
+
             var lambdaName = 'lambda-broken-js';
-            lambdaRunner.run(lambdaName);
-            expect(console.error).toHaveBeenCalledWith('Invalid module: ' + lambdaName);
-            expect(console.trace).toHaveBeenCalled();
+            expect(function(){ lambdaRunner.run(lambdaName); }).toThrow('Invalid module: ' + lambdaName);
         });
     });
 
@@ -79,11 +71,9 @@ describe('AWS Lambda Function', function (){
 
     describe('lambda function exception', function () {
         it('should call console.error with exception', function (){
-            spyOn(console, 'error');
-            lambdaRunner.run('lambda-example', 'throwError');
             var message = 'Uncaught exception running the lambdaFunction. ';
-            message += 'Error: random error';
-            expect(console.error).toHaveBeenCalledWith(message);
+            message += 'lambda-example.throwError';
+            expect(function(){ lambdaRunner.run('lambda-example', 'throwError'); }).toThrow(message);
         });
     });
 
