@@ -1,4 +1,3 @@
-#AQUI ESTUVO DODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO!
 # aws-lambda-function-sandbox-runner
 Run AWS Lambda Functions on your local computers, for testing purposes
 
